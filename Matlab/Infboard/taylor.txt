@@ -1,0 +1,51 @@
+syms x;
+
+% <ÄNDERN>:
+% Die Formel:
+f = sin(x);	
+%f = (x*exp(abs(x)))/(x^2+1);	
+% Grad der Approximation: 2
+% Vorgabe: n >= 2
+n = 2;
+% Punkt für Approx.: 4
+x0 = 4;
+% </ÄNDERN>:
+
+% Mit Taylor-Funktion: 
+% taylor(f,n+1,x0)
+% Mit Taylortool:
+% taylortool(f);
+
+T = sym([]);
+fi = inline(vectorize(f));
+fid = inline(vectorize(diff(f,1)));
+T(1) = simplify(fi(x0) + fid(x0)*(x-x0));
+for i=[2:n]
+  fid = inline(vectorize(diff(f,i)));
+  T(i) = simplify(T(i-1) + (fid(x0)/factorial(i)) * (x-x0)^i);
+end;
+%Ausgabe der Approyimation:
+T(n)
+
+% Graphische Darstellung:
+k = max(4,abs(x0));
+space = [-2*k,2*k,floor(fi(x0))-k,floor(fi(x0))+k];
+fig = figure; hold on; grid on;
+h = [];
+h(1) = ezplot(f,space,fig);
+set(h(1),'color','b');
+set(h(1),'LineWidth',2);
+set(h(1),'DisplayName',char(f));
+
+h(2) = ezplot(T(n),space,fig);
+set(h(2),'color','r');
+set(h(2),'LineStyle','--'); 
+set(h(2),'LineWidth',2);
+set(h(2),'DisplayName',char(T(n)));
+
+% Achsen-Zoom angleichen:
+axis(space);
+%axis equal;
+% Legende:
+legend(h);
+

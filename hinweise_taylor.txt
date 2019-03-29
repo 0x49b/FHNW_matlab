@@ -1,0 +1,5 @@
+Taylor-Polynom mit Matlab
+=========================
+1) Definieren Sie eine Variable mit dem Befehl syms x
+2) Bestimmen Sie das Taylorpolynom n?ter Ordnung einer Funktion an der Stelle x0 mit dem Befehl:
+   taylor("Funktion von x", 'expansionpoint',x0, 'order',n+1)

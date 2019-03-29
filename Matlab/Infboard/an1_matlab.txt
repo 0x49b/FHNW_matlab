@@ -1,0 +1,125 @@
+Copypasta:
+
+clear; clc; format compact; syms x y;
+
+hold on; grid on; axis([-10 10 -10 10]); axis equal;
+
+cis = inline(exp(i*x));
+arg = inline(atan(imag(x)/real(x))+(1-(real(x))/abs(real(x)))/2*pi);
+
+quad(inline(vectorize('...')),0,1)
+
+pretty(simplify(ans))
+
+xtr = solve(diff(f)) 
+subs(f,'x',xtr)
+subs(diff(f,2),'x',xtr)
+
+syms x tx;
+x0 = ...;
+t = f + diff(f)*(tx-x);
+t = subs(subs(t,'x',x0),'tx',x)
+
+syms x nx;
+x0 = ...;
+n = f - (nx-x)/diff(f);
+n = subs(subs(n,'x',x0),'nx',x)
+
+limit((1+1/x)^x,x,inf,'left') 
+
+----------------------------------
+Grundfunktionen:
+
+
+x = 1:2:9; -> x = [ 1 3 5 7 9 ] 
+x(2) -> 3 
+
+k = sym('k','positive') -> k in R, k>0
+k = -1*sym('k','positive') -> k in R, k<0
+
+syms x -> x ist als symbolischer Wert deklariert
+wurzelzwei = sym('sqrt(2)') -> symbolisch, statt numerisch 
+double(wurzelzwei) -> numerisch, statt symbolisch
+
+f = inline(vectorize(f)) -> Inline-Funktion f aus Gleichung f
+subs(f,x,123) -> in Gl. f die Var. x mit Wert 123 ersetzen
+
+format long -> genauer rechnen
+format compact -> nur genau, wenn Nachkommastellen vorhanden
+
+pretty(f) -> "schön" zeigen
+simplify(f) ->vereinfachen
+pretty(simplify(f)) -> schön und einfach
+
+expand(f) -> ausmultiplizieren
+factor(f) -> faktorisieren
+[z,n]=numden(f) -> Zähler/Nenner
+
+solve(f,'x') -> nach x auflösen
+solve(f1,f2,'x,y') -> Gleichungssystem
+
+limit -> Limes
+limit((1+1/x)^x,x,inf,'left')=e 
+
+exp(1) -> e
+exp(x) -> e^x
+
+log(x) -> ln(x) (Log zur Basis e)
+log10(x) -> lg(x) (Log zur Basis 10)
+log(x)/log(b) -> logb(x) (Log zur Basis b)
+
+diff(f) -> ableiten
+int(f) -> integrieren
+quad(inline(f),a,b) -> Bestimmtes Integral von a bis b über f
+taylor(f,n) -> (n-1)tes Taylorpolynom
+
+ezplot(f) -> Graph zeichnen
+fplot(f,[-x,+x,-y,+y]) -> Plot mit Grenzen
+semilogy(x,y) -> y-Achse logarithmisch
+hold on -> Plot beibehalten
+grid on -> Gitterlinien
+legend -> legende
+axis equal -> x/y-Achsen ausgleichen
+
+help elfun -> elementary functions
+lookfor <wort> -> hilfe durchsuchen
+
+----------------------------------
+% Einfaches Gleichungssystem lösen:
+syms a b; % Variabeln
+g1 = '2*a+2*b=27'; g2='a*b=45'; % Gleichungen
+solved = solve(g1,g2,'a,b'); %Auflösung
+solved.a, solved.b % Ausgabe der Lösungen
+
+----------------------------------
+% Quadratische Gleichung lösen:
+% Bsp: 2x^2+27x+90
+syms x;
+a = 2; b = 27; c=90;%Werte des Polynoms
+g = a*x^2+b*x+c; % Nullstelle
+solved = solve(g) %Auflösung
+
+----------------------------------
+% Binominalkoeffizient:
+n = 52; k = 5;
+(factorial(n))/(factorial(k)*factorial(n-k))
+ans = 
+   2598960
+----------------------------------
+Integrieren:
+% a unter S, b über S!
+I = quad(inline(vectorize(f)),a,b)
+% gleich wie:
+I = subs(int(f),x,b) - subs(int(f),x,a);
+
+----------------------------------
+Komplexe Zahlen:
+cis = inline(cos(x)+i*sin(x))
+cis = inline(exp(i*x))
+arg = inline(atan(imag(x)/real(x))+(1-(real(x))/abs(real(x)))/2*pi);
+
+arg(z) => angle(z)
+|z| => abs(z)
+z* => conj(z)
+Im(z) => imag(z)
+Re(z) => real(z)
